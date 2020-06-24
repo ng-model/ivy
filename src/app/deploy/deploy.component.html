@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="text-justify">
                 <h3 class="display-4">Deploying Angular app in gh-pages
-                    </h3>
+                </h3>
                 <small>this page covers <u>#Angular</u>&nbsp;<u>#deploymnts</u> using <u>#gh-pages</u> for Angular
                     applications only</small>
             </div>
@@ -16,20 +16,23 @@
                     <code>static pages</code> for free and it is simple to use, just paste your files or commit to the
                     branch
                     and
-                    choose a desired branch to deploy securely now it is enforce HTTPS enabled, which provides a layer of
+                    choose a desired branch to deploy securely now it is enforce HTTPS enabled, which provides a layer
+                    of
                     encryption that prevents others from snooping on or tampering with traffic to your site.
                     When HTTPS is enforced, your site will only be served over <a
-                        href="https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https" target="_blank">HTTPS</a>.
+                        href="https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https"
+                        target="_blank">HTTPS</a>.
                 </p>
-                <p> We might already know <code>angular-cli</code> as a tool for Angular apps and what it can do. Here we use <a
-                        href="https://github.com/angular-schule/angular-cli-ghpages" target="_blank">
+                <p> We might already know <code>angular-cli</code> as a tool for Angular apps and what it can do. Here
+                    we use <a href="https://github.com/angular-schule/angular-cli-ghpages" target="_blank">
                         angular-cli-ghpages </a> to deploy <i class="fa fa-rocket" aria-hidden="true"></i> our Angular
                     application.</p>
 
                 <p>First get in to your project directory <code>cd yourProjectDirectory</code> then Install
                     <code>angular-cli-ghpages</code>&nbsp; -g means globally</p>
                 <div class="text-center m-5">
-                    <img src="../../assets/images/cmdone.png" alt="firstcmd" srcset="" style="width: 60%;">
+                    <img src="https://raw.githubusercontent.com/ng-model/ivy/dev/src/assets/images/cmdone.png"
+                        alt="firstcmd" srcset="" style="width: 60%;">
                 </div>
                 <!-- <div class="gatsby-highlight">
                 <pre class="language-html">
@@ -40,11 +43,13 @@
                 </div> -->
                 <p>Now use the angular-cli build cmd we use in angular application to produce target folder with
                     <code>--base-href flag</code> here <code>"repo-name"</code> should be
-                    <code>https://userName.github.io/yourRepoName/</code> cause that is where
-                    the app is available after it gets deployed <i class="fa fa-rocket" aria-hidden="true"></i> by the
-                    end of this tutorial.</p>
+                    <s><code>https://userName.github.io/yourRepoName/</code></s> <i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i> only <code>/yourRepoName/</code> <i class="fa fa-check text-success" aria-hidden="true"></i> cause
+                    when the dist gets deployed, the index file looks for the assets and other files to render, so many
+                    other pages may have mentioned otherwise but trust me the pages will not reload properly, So follow the steps and by the
+                    end of this tutorial you will understand on your own.</p>
                 <div class="text-center m-5">
-                    <img src="../../assets/images/cmdtwo.png" alt="secondcmd" srcset="" style="width: 60%;">
+                    <img src="https://raw.githubusercontent.com/ng-model/ivy/dev/src/assets/images/cmdtwo.png"
+                        alt="secondcmd" srcset="" style="width: 60%;">
                 </div>
                 <!-- <pre>
                 <code class="language-c">
@@ -59,7 +64,8 @@
                         class="fa fa-github" aria-hidden="true"></i>
                     repository</p>
                 <div class="text-center m-5">
-                    <img src="../../assets/images/cmdthree.png" alt="thirdcmd" srcset="" style="width: 60%;">
+                    <img src="https://raw.githubusercontent.com/ng-model/ivy/dev/src/assets/images/cmdthree.png"
+                        alt="thirdcmd" srcset="" style="width: 60%;">
                 </div>
                 <!-- <pre>
                 <code class="language-javascript">
