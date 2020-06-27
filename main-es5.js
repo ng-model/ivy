@@ -382,6 +382,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _shared_error_error_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! ./shared/error/error.component */
     "./src/app/shared/error/error.component.ts");
+    /* harmony import */
+
+
+    var _shared_guard_auth_guard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ./shared/guard/auth.guard */
+    "./src/app/shared/guard/auth.guard.ts");
 
     var routes = [{
       path: '',
@@ -409,7 +415,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         "./src/app/products/products.module.ts")).then(function (m) {
           return m.ProductsModule;
         });
-      }
+      },
+      canActivate: [_shared_guard_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     }, {
       path: '**',
       component: _shared_error_error_component__WEBPACK_IMPORTED_MODULE_3__["ErrorComponent"]
@@ -843,7 +850,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       selectors: [["app-error"]],
       decls: 5,
       vars: 0,
-      consts: [[1, "content"], [1, "container"], ["href", "/products/home", 1, "display-3"], [1, "fa", "fa-home", "fa-5x"]],
+      consts: [[1, "content"], [1, "container"], ["href", "products/home", 1, "display-3"], [1, "fa", "fa-home", "fa-5x"]],
       template: function ErrorComponent_Template(rf, ctx) {
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -877,6 +884,96 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }]
       }], function () {
         return [];
+      }, null);
+    })();
+    /***/
+
+  },
+
+  /***/
+  "./src/app/shared/guard/auth.guard.ts":
+  /*!********************************************!*\
+    !*** ./src/app/shared/guard/auth.guard.ts ***!
+    \********************************************/
+
+  /*! exports provided: AuthGuard */
+
+  /***/
+  function srcAppSharedGuardAuthGuardTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "AuthGuard", function () {
+      return AuthGuard;
+    });
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _shared_services_auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! ../../shared/services/auth.service */
+    "./src/app/shared/services/auth.service.ts");
+    /* harmony import */
+
+
+    var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/router */
+    "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+
+    var AuthGuard = /*#__PURE__*/function () {
+      function AuthGuard(authService, router) {
+        _classCallCheck(this, AuthGuard);
+
+        this.authService = authService;
+        this.router = router;
+      }
+
+      _createClass(AuthGuard, [{
+        key: "canActivate",
+        value: function canActivate(next, state) {
+          if (this.authService.isLoggedIn !== true) {
+            this.authService.SignOut();
+            this.router.navigate(['auth/login']);
+          }
+
+          return true;
+        }
+      }]);
+
+      return AuthGuard;
+    }();
+
+    AuthGuard.ɵfac = function AuthGuard_Factory(t) {
+      return new (t || AuthGuard)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_shared_services_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]));
+    };
+
+    AuthGuard.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+      token: AuthGuard,
+      factory: AuthGuard.ɵfac,
+      providedIn: 'root'
+    });
+    /*@__PURE__*/
+
+    (function () {
+      _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AuthGuard, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+          providedIn: 'root'
+        }]
+      }], function () {
+        return [{
+          type: _shared_services_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"]
+        }, {
+          type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]
+        }];
       }, null);
     })();
     /***/
@@ -1200,27 +1297,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return this.afAuth.createUserWithEmailAndPassword(email, password).then(function (result) {
             /* Call the SendVerificaitonMail() function when new user sign
             up and returns promise */
-            // this.SendVerificationMail();
+            _this4.SendVerificationMail();
+
             _this4.SetUserData(result.user);
           })["catch"](function (error) {
-            window.alert(error.message);
+            console.log(error.message);
+
+            _this4.toastr.success(error.message, 'Oops!');
           });
         } // Send email verfificaiton when new user sign up
-        // SendVerificationMail() {
-        //     return this.afAuth.currentUser.sendEmailVerification()
-        //         .then(() => {
-        //             this.router.navigate(['verify-email-address']);
-        //         })
-        // }
-        // Reset Forggot password
+
+      }, {
+        key: "SendVerificationMail",
+        value: function SendVerificationMail() {
+          var _this5 = this;
+
+          return this.afAuth.currentUser.then(function (u) {
+            return u.sendEmailVerification();
+          }).then(function () {
+            _this5.router.navigate(['auth/verify-email']);
+          });
+        } // Reset Forggot password
 
       }, {
         key: "ForgotPassword",
         value: function ForgotPassword(passwordResetEmail) {
+          var _this6 = this;
+
           return this.afAuth.sendPasswordResetEmail(passwordResetEmail).then(function () {
-            window.alert('Password reset email sent, check your inbox.');
+            _this6.toastr.success('Password reset email sent, check your inbox.', 'Succcess');
           })["catch"](function (error) {
-            window.alert(error);
+            _this6.toastr.success(error, 'Oops!');
           });
         } // Returns true when user is looged in and email is verified
 
@@ -1234,16 +1341,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "AuthLogin",
         value: function AuthLogin(provider) {
-          var _this5 = this;
+          var _this7 = this;
 
           return this.afAuth.signInWithPopup(provider).then(function (result) {
-            _this5.ngZone.run(function () {
-              _this5.router.navigate(['/products/home']);
+            _this7.ngZone.run(function () {
+              _this7.router.navigate(['/products/home']);
             });
 
-            _this5.SetUserData(result.user);
+            _this7.SetUserData(result.user);
           })["catch"](function (error) {
-            window.alert(error);
+            _this7.toastr.success(error, 'Oops!');
           });
         }
         /* Setting up user data when sign in with username/password,
@@ -1269,12 +1376,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "SignOut",
         value: function SignOut() {
-          var _this6 = this;
+          var _this8 = this;
 
           return this.afAuth.signOut().then(function () {
             localStorage.removeItem('user');
 
-            _this6.router.navigate(['/']);
+            _this8.router.navigate(['auth/login']);
           });
         }
       }, {

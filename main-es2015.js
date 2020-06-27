@@ -335,6 +335,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
 /* harmony import */ var _layout_layout_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layout/layout.component */ "./src/app/layout/layout.component.ts");
 /* harmony import */ var _shared_error_error_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shared/error/error.component */ "./src/app/shared/error/error.component.ts");
+/* harmony import */ var _shared_guard_auth_guard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./shared/guard/auth.guard */ "./src/app/shared/guard/auth.guard.ts");
+
 
 
 
@@ -354,6 +356,7 @@ const routes = [
         path: 'products',
         component: _layout_layout_component__WEBPACK_IMPORTED_MODULE_2__["LayoutComponent"],
         loadChildren: () => __webpack_require__.e(/*! import() | products-products-module */ "products-products-module").then(__webpack_require__.bind(null, /*! ./products/products.module */ "./src/app/products/products.module.ts")).then((m) => m.ProductsModule),
+        canActivate: [_shared_guard_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
         path: '**',
@@ -588,7 +591,7 @@ class ErrorComponent {
     }
 }
 ErrorComponent.ɵfac = function ErrorComponent_Factory(t) { return new (t || ErrorComponent)(); };
-ErrorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ErrorComponent, selectors: [["app-error"]], decls: 5, vars: 0, consts: [[1, "content"], [1, "container"], ["href", "/products/home", 1, "display-3"], [1, "fa", "fa-home", "fa-5x"]], template: function ErrorComponent_Template(rf, ctx) { if (rf & 1) {
+ErrorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ErrorComponent, selectors: [["app-error"]], decls: 5, vars: 0, consts: [[1, "content"], [1, "container"], ["href", "products/home", 1, "display-3"], [1, "fa", "fa-home", "fa-5x"]], template: function ErrorComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "a", 2);
@@ -606,6 +609,48 @@ ErrorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCom
                 styleUrls: ['./error.component.scss']
             }]
     }], function () { return []; }, null); })();
+
+
+/***/ }),
+
+/***/ "./src/app/shared/guard/auth.guard.ts":
+/*!********************************************!*\
+  !*** ./src/app/shared/guard/auth.guard.ts ***!
+  \********************************************/
+/*! exports provided: AuthGuard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuard", function() { return AuthGuard; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _shared_services_auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/services/auth.service */ "./src/app/shared/services/auth.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+
+
+
+
+class AuthGuard {
+    constructor(authService, router) {
+        this.authService = authService;
+        this.router = router;
+    }
+    canActivate(next, state) {
+        if (this.authService.isLoggedIn !== true) {
+            this.authService.SignOut();
+            this.router.navigate(['auth/login']);
+        }
+        return true;
+    }
+}
+AuthGuard.ɵfac = function AuthGuard_Factory(t) { return new (t || AuthGuard)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_shared_services_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"])); };
+AuthGuard.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: AuthGuard, factory: AuthGuard.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AuthGuard, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return [{ type: _shared_services_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] }]; }, null); })();
 
 
 /***/ }),
@@ -768,26 +813,27 @@ class AuthService {
             .then((result) => {
             /* Call the SendVerificaitonMail() function when new user sign
             up and returns promise */
-            // this.SendVerificationMail();
+            this.SendVerificationMail();
             this.SetUserData(result.user);
         }).catch((error) => {
-            window.alert(error.message);
+            console.log(error.message);
+            this.toastr.success(error.message, 'Oops!');
         });
     }
     // Send email verfificaiton when new user sign up
-    // SendVerificationMail() {
-    //     return this.afAuth.currentUser.sendEmailVerification()
-    //         .then(() => {
-    //             this.router.navigate(['verify-email-address']);
-    //         })
-    // }
+    SendVerificationMail() {
+        return this.afAuth.currentUser.then(u => u.sendEmailVerification())
+            .then(() => {
+            this.router.navigate(['auth/verify-email']);
+        });
+    }
     // Reset Forggot password
     ForgotPassword(passwordResetEmail) {
         return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
             .then(() => {
-            window.alert('Password reset email sent, check your inbox.');
+            this.toastr.success('Password reset email sent, check your inbox.', 'Succcess');
         }).catch((error) => {
-            window.alert(error);
+            this.toastr.success(error, 'Oops!');
         });
     }
     // Returns true when user is looged in and email is verified
@@ -808,7 +854,7 @@ class AuthService {
             });
             this.SetUserData(result.user);
         }).catch((error) => {
-            window.alert(error);
+            this.toastr.success(error, 'Oops!');
         });
     }
     /* Setting up user data when sign in with username/password,
@@ -831,7 +877,7 @@ class AuthService {
     SignOut() {
         return this.afAuth.signOut().then(() => {
             localStorage.removeItem('user');
-            this.router.navigate(['/']);
+            this.router.navigate(['auth/login']);
         });
     }
 }
