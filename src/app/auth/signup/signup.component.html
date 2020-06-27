@@ -1,34 +1,29 @@
 <div class="login-register mt-2">
     <div class="login-box card">
         <div class="card-body">
-            <h4 class="display-4">Login</h4>
+            <h4 class="display-4">Sign up</h4>
             <hr>
             <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="text" class="form-control" id="email" autocomplete="off" value=""
-                    aria-describedby="emailHelp" placeholder="Email" #userName required />
+                    aria-describedby="emailHelp" placeholder="Email address" #userEmail required>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                     else.</small>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" value="" placeholder="Password" #userPassword
-                    required />
-            </div>
-            <div class="form-group pull-right">
-                <!-- <input type="checkbox" class="form-check-input" id="exampleCheck1" /> -->
-                <a class="forgotPassword" routerLink="/auth/forgot-password">
-                    Forgot Password?
-                </a>
-            </div>
+                <input type="password" class="form-control" id="password" value="" placeholder="Password" #userPwd
+                    required>
+            </div> <br>
             <div class="form-group text-center m-t-20">
                 <div class="col-xs-12">
                     <button class="btn btn-outline-primary btn-lg btn-block text-uppercase"
-                        (click)="authService.SignIn(userName.value, userPassword.value)">Log
-                        In</button>
+                        (click)="authService.SignUp(userEmail.value, userPwd.value)">Sign Up
+                    </button>
                 </div>
             </div>
-            <div class="form-group d-flex justify-content-between">
+            <div class="form-group text-center">
+                <span class="or"><span class="orInner">Or</span></span><br>
                 <button type="button" class="btn btn-link" (click)="authService.GoogleAuth()">Sign in with Google
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48"
                         class="abcRioButtonSvg">
@@ -49,15 +44,9 @@
                         </g>
                     </svg>
                 </button>
-                <button class="btn btn-link" routerLink="/auth/register-user">
-                    Sign Up
-                </button>
+                <p> Already have an account? <a routerLink="/auth/login">Log In
+                    </a></p>
             </div>
-
-            <!-- <div class="form-group">
-                <span>Don't have an account?<a class="btn btn-link" routerLink="/register-user">
-                        Sign Up</a></span>
-            </div> -->
         </div>
     </div>
 </div>
