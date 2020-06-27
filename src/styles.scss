@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
 @import "./assets/icon/font-awesome/css/font-awesome.min.css";
 @import "./assets/icon/themify-icons/themify-icons.css";
 @import "~ngx-toastr/toastr";
@@ -35,6 +37,3 @@
 .toast-container.toast-bottom-center .ngx-toastr {
   margin-top: 30px;
 }
-
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';

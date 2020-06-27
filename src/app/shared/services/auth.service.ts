@@ -50,28 +50,29 @@ export class AuthService {
             .then((result) => {
                 /* Call the SendVerificaitonMail() function when new user sign 
                 up and returns promise */
-                // this.SendVerificationMail();
+                this.SendVerificationMail();
                 this.SetUserData(result.user);
             }).catch((error) => {
-                window.alert(error.message)
+                console.log(error.message);
+                this.toastr.success(error.message, 'Oops!');
             })
     }
 
     // Send email verfificaiton when new user sign up
-    // SendVerificationMail() {
-    //     return this.afAuth.currentUser.sendEmailVerification()
-    //         .then(() => {
-    //             this.router.navigate(['verify-email-address']);
-    //         })
-    // }
+    SendVerificationMail() {
+        return this.afAuth.currentUser.then(u => u.sendEmailVerification())
+            .then(() => {
+                this.router.navigate(['auth/verify-email']);
+            })
+    }
 
     // Reset Forggot password
     ForgotPassword(passwordResetEmail) {
         return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
             .then(() => {
-                window.alert('Password reset email sent, check your inbox.');
+                this.toastr.success('Password reset email sent, check your inbox.', 'Succcess');
             }).catch((error) => {
-                window.alert(error)
+                this.toastr.success(error, 'Oops!');
             })
     }
 
@@ -95,7 +96,7 @@ export class AuthService {
                 })
                 this.SetUserData(result.user);
             }).catch((error) => {
-                window.alert(error)
+                this.toastr.success(error, 'Oops!');
             })
     }
 
@@ -120,7 +121,7 @@ export class AuthService {
     SignOut() {
         return this.afAuth.signOut().then(() => {
             localStorage.removeItem('user');
-            this.router.navigate(['/']);
+            this.router.navigate(['auth/login']);
         })
     }
 
