@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { LayoutComponent } from './layout/layout.component';
+import { ErrorComponent } from './shared/error/error.component';
 
 const routes: Routes = [
   {
-    path: 'auth/login',
-    redirectTo: '',
+    path: '',
+    redirectTo: 'auth/login',
     pathMatch: 'full'
   },
   {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    path: 'auth', loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'products',
@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/'
+    component: ErrorComponent
   }
 ];
 

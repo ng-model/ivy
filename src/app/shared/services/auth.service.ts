@@ -5,24 +5,20 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class AuthService {
-    userData: any; // Save logged in user data
-    private info = new Subject<any>();
+    userData: any;
     constructor(
-        public afs: AngularFirestore,   // Inject Firestore service
-        public afAuth: AngularFireAuth, // Inject Firebase auth service
+        public afs: AngularFirestore,
+        public afAuth: AngularFireAuth,
         public router: Router,
-        public ngZone: NgZone, // NgZone service to remove outside scope warning
+        public ngZone: NgZone,
         public toastr: ToastrService
     ) {
-        /* Saving user data in localstorage when 
-        logged in and setting up null when logged out */
         this.afAuth.authState.subscribe(user => {
             if (user) {
                 this.userData = user;
@@ -35,25 +31,20 @@ export class AuthService {
         })
     }
 
-    getUserInfo(): Observable<any> {
-        return this.info.asObservable();
-    }
-    // Sign in with email/password
     SignIn(email, password) {
         return this.afAuth.signInWithEmailAndPassword(email, password)
             .then((result) => {
                 this.ngZone.run(() => {
-                    this.router.navigate(['home']);
+                    JSON.parse(localStorage.getItem('user'));
+                    this.router.navigate(['products/home']);
                 });
                 this.SetUserData(result.user);
-                this.info.next(JSON.parse(localStorage.getItem('user')));
             }).catch((error) => {
                 console.log(error.message);
                 this.toastr.success(error.message, 'Oops!');
             })
     }
 
-    // Sign up with email/password
     SignUp(email, password) {
         return this.afAuth.createUserWithEmailAndPassword(email, password)
             .then((result) => {
@@ -100,7 +91,7 @@ export class AuthService {
         return this.afAuth.signInWithPopup(provider)
             .then((result) => {
                 this.ngZone.run(() => {
-                    this.router.navigate(['home']);
+                    this.router.navigate(['/products/home']);
                 })
                 this.SetUserData(result.user);
             }).catch((error) => {

@@ -16,10 +16,13 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutComponent } from './layout/layout.component';
 import { SharedModule } from './shared/shared.module';
+import { NavComponent } from './shared/nav/nav.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent
+    LayoutComponent,
+    NavComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +42,7 @@ import { SharedModule } from './shared/shared.module';
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [ProductService, AuthService],
   bootstrap: [AppComponent]
 })

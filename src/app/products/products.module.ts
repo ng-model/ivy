@@ -4,6 +4,7 @@ import { ProductsRoutingModule } from './products-routing.module';
 import { DeployComponent } from './deploy/deploy.component';
 import { HomeComponent } from './home/home.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { InventoryComponent } from './inventory/inventory.component';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     ProductsRoutingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
