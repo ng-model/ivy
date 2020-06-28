@@ -1,3 +1,30 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "~@angular/material/theming";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$ivy-primary: mat-palette($mat-indigo);
+$ivy-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$ivy-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$ivy-theme: mat-light-theme($ivy-primary, $ivy-accent, $ivy-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($ivy-theme);
+
 /* You can add global styles to this file, and also import other style files */
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
@@ -5,14 +32,6 @@
 @import "./assets/icon/themify-icons/themify-icons.css";
 @import "~ngx-toastr/toastr";
 
-.content {
-  display: flex;
-  margin: 82px auto 32px;
-  padding: 0 16px;
-  max-width: 960px;
-  flex-direction: column;
-  align-items: center;
-}
 .toast-success,
 .toast-error,
 .toast-info,
@@ -36,4 +55,33 @@
 .toast-container.toast-top-center .ngx-toastr,
 .toast-container.toast-bottom-center .ngx-toastr {
   margin-top: 30px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#scroll {
+  overflow: auto;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(80, 78, 78, 0.3);
+    background-color: #f5f5f5;
+    border-radius: 25px;
+  }
+  &::-webkit-scrollbar {
+    width: 2px;
+    background-color: #f5f5f5;
+    height: 9px;
+    margin-top: 1%;
+  }
+  &::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(83, 81, 81, 0.3);
+    background-color: #c0c0c0;
+    border-radius: 25px;
+    &:hover {
+      background-color: #2927274d;
+    }
+  }
 }
