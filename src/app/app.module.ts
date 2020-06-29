@@ -44,7 +44,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatButtonModule,
     MatIconModule,
     ToastrModule.forRoot({
-      disableTimeOut: true,
       positionClass: 'toast-top-center',
       preventDuplicates: true,
     }),

@@ -1,4 +1,4 @@
-<div class="login-register mt-2">
+<div class="login-register mt-2" style="background-image: url('assets/images/login.jpg');">
     <div class="login-box card">
         <div class="card-body">
             <h4 class="display-4">Thanks</h4>
@@ -12,12 +12,13 @@
                 <button type="button" class="btn btn-outline-primary" (click)="authService.SendVerificationMail()">
                     <i class="fas fa-redo-alt"></i>
                     Resend Verification Email
-                </button> <hr>
+                </button>
+                <hr>
                 <span class="or"><span class="orInner">Or</span></span>
                 <p> Go back to? <a routerLink="/auth/login">Log In
                     </a></p>
             </div>
-            
+
         </div>
 
     </div>

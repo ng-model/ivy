@@ -4,33 +4,37 @@
             <img *ngIf="myDisplay" class="rounded-circle" [src]="myDisplay" width="40" alt="users image">
             <img *ngIf="!myDisplay" width="40" alt="Angular Logo"
                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
-            <span class="logoff">Welcome <span *ngIf="myDisplay">{{user.displayName}}</span> </span></div>
+            <span class="logoff">Welcome <span *ngIf="myDisplay">{{user.displayName}}</span> </span>
+        </div>
         <button class="btn btn-link text-white pull-right" (click)="authService.SignOut()"><i
                 class="fa fa-power-off fa-lg" aria-hidden="true"></i></button>
     </mat-toolbar-row>
 
-    <mat-toolbar-row>
-        <button mat-icon-button>
-            <button class="btn" (click)="sidenav.toggle()"><i class="fa fa-bars fa-lg text-white"
-                    aria-hidden="true"></i></button>
+    <mat-toolbar-row class="d-flex justify-content-between">
+        <div>
+            <button class="btn" (click)="sidenav.toggle()">
+                <i class="fa fa-bars fa-lg text-white" aria-hidden="true"></i>
+            </button>
+            <span style="font-size: 15px;">
+                {{time}}</span>
+        </div>
+        <button class="btn pull-right" (click)="showCart()"><i class="fa fa-cart-arrow-down fa-lg text-white"
+                aria-hidden="true"></i></button>
 
-        </button> <span style="font-size: 15px;">
-            {{time}}</span>
     </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container>
     <mat-sidenav #sidenav style="width: 250px;">
-        <mat-nav-list>
+        <mat-nav-list (click)="sidenav.toggle()">
             <a mat-list-item routerLinkActive routerLink="/products/home"> Home </a>
             <a mat-list-item routerLinkActive routerLink="/products/inventory"> Inventory </a>
             <a mat-list-item routerLinkActive routerLink="/products/gh-pages-deploy"> Deploy </a>
-            <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
+            <a mat-list-item mat-list-item>Close</a>
 
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <div id="scroll" style="height: 88vh;
-    padding-top: 50px;">
+        <div id="scroll" style="height: 83vh;">
             <router-outlet></router-outlet>
         </div>
     </mat-sidenav-content>

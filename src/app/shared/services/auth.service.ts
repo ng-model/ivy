@@ -41,7 +41,9 @@ export class AuthService {
                 this.SetUserData(result.user);
             }).catch((error) => {
                 console.log(error.message);
-                this.toastr.success(error.message, 'Oops!');
+                this.toastr.success(error.message, 'Oops!', {
+                    disableTimeOut: true
+                });
             })
     }
 
@@ -54,7 +56,9 @@ export class AuthService {
                 this.SetUserData(result.user);
             }).catch((error) => {
                 console.log(error.message);
-                this.toastr.success(error.message, 'Oops!');
+                this.toastr.success(error.message, 'Oops!', {
+                    disableTimeOut: true
+                });
             })
     }
 
@@ -72,7 +76,9 @@ export class AuthService {
             .then(() => {
                 this.toastr.success('Password reset email sent, check your inbox.', 'Succcess');
             }).catch((error) => {
-                this.toastr.success(error, 'Oops!');
+                this.toastr.success(error, 'Oops!', {
+                    disableTimeOut: true
+                });
             })
     }
 
@@ -101,7 +107,9 @@ export class AuthService {
                 })
                 this.SetUserData(result.user);
             }).catch((error) => {
-                this.toastr.success(error, 'Oops!');
+                this.toastr.success(error, 'Oops!', {
+                    disableTimeOut: true
+                });
             })
     }
 
@@ -127,6 +135,12 @@ export class AuthService {
         return this.afAuth.signOut().then(() => {
             localStorage.removeItem('user');
             this.router.navigate(['auth/login']);
+            this.toastr.success('Logged out successfully', 'Thanks', {
+                timeOut: 2000
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         })
     }
 

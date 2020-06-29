@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { AuthService } from '../../shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +13,7 @@ export class NavComponent implements OnInit {
   user: any;
   myDisplay: any;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, private toastr: ToastrService) {
     setInterval(() => {
       this.time = moment().format('LTS');
     }, 1);
@@ -24,6 +25,12 @@ export class NavComponent implements OnInit {
     if (this.user) {
       this.myDisplay = this.user.photoURL;
     }
+  }
+
+  showCart() {
+    return this.toastr.success('Cart service is work in progress', '', {
+      timeOut: 3000
+    });
   }
 
 }

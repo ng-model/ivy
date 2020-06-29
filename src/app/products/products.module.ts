@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CommonModule,
     ReactiveFormsModule,
     MatPaginatorModule,
+    NgxSpinnerModule,
     ProductsRoutingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
