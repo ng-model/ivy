@@ -1,7 +1,9 @@
-<div class="login-register mt-2">
+<div class="login-register mt-2" style="background-image: url('assets/images/login.jpg');">
     <div class="login-box card">
         <div class="card-body">
-            <h4 class="display-4">Login</h4>
+            <div class="logo-header">
+                <h4 class="display-4">Ivy</h4> <img src="assets/images/icon-72x72.png" alt="" srcset="">
+            </div>
             <hr>
             <div class="form-group">
                 <label for="email">Email address</label>
@@ -28,7 +30,8 @@
                         In</button>
                 </div>
             </div>
-            <div class="form-group d-flex justify-content-between">
+            <div class="form-group text-center">
+                <span class="or"><span class="orInner">Or</span></span><br>
                 <button type="button" class="btn btn-link" (click)="authService.GoogleAuth()">Sign in with Google
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48"
                         class="abcRioButtonSvg">
@@ -49,9 +52,13 @@
                         </g>
                     </svg>
                 </button>
-                <button class="btn btn-link" routerLink="/auth/register-user">
-                    Sign Up
+                <button type="button" class="btn btn-link" (click)="authService.GithubAuth()">
+                    Sign in with <i class="fa fa-github fa-lg text-dark" aria-hidden="true"></i>
                 </button>
+                <br>
+                <p>
+                    Don't have an account? <a routerLink="/auth/register-user"> Sign Up</a>
+                </p>
             </div>
 
             <!-- <div class="form-group">

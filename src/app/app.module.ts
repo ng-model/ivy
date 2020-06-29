@@ -17,6 +17,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutComponent } from './layout/layout.component';
 import { SharedModule } from './shared/shared.module';
 import { NavComponent } from './shared/nav/nav.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -32,8 +38,12 @@ import { NavComponent } from './shared/nav/nav.component';
     NgbModule,
     SharedModule,
     BrowserAnimationsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
     ToastrModule.forRoot({
-      disableTimeOut: true,
       positionClass: 'toast-top-center',
       preventDuplicates: true,
     }),
@@ -41,6 +51,7 @@ import { NavComponent } from './shared/nav/nav.component';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [ProductService, AuthService],

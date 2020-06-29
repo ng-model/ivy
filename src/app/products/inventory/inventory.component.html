@@ -1,35 +1,33 @@
 <div class="content" role="main">
-  <div class="container">
-    <div class="d-flex justify-content-between">
-      <h3><a routerLink="/products/home"> <i class="fa fa-arrow-left" aria-hidden="true"></i></a> </h3><button
-        class="btn btn-primary" (click)="open(addItem)">Add Item</button>
-    </div>
+  <div class="container-fluid">
     <div class="card-body">
-      <h3>Available Products</h3>
-      <hr>
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr class="text-nowrap">
-              <th>#</th>
-              <th>Hash ID</th>
-              <th>Price</th>
-              <th>Category</th>
-              <th>Image</th>
-              <th>Title</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="text-nowrap" *ngFor="let t of products">
-              <td>{{t.id}}</td>
-              <td>{{t.key}}</td>
-              <td>{{t.price}}</td>
-              <td>{{t.category}}</td>
-              <td>{{t.imageUrl}}</td>
-              <td>{{t.title}}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="d-flex justify-content-between">
+        <h3>Available Products </h3><button class="btn btn-outline-primary rounded-circle" (click)="open(addItem)"><i
+            class="fa fa-plus"></i></button>
+      </div><br>
+      <div class="row">
+        <div class="col-sm-3" *ngFor="let t of products">
+          <div class="card mb-4">
+            <ngx-spinner bdColor="rgba(255,254,254,0.67)" size="default" color="#1a2271" type="ball-clip-rotate"
+              [fullScreen]="false">
+            </ngx-spinner>
+            <img class="card-img-top" src="https://source.unsplash.com/300x300/?fruit" alt="{{ t.title }}">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <p *ngIf="t.title; else Other" class="card-title">{{ t.title | slice:0:6 || 124 }}</p>
+                <ng-template #Other>
+                  <p>N/A</p>
+                </ng-template>
+                <p *ngIf="t.price; else Other" class="card-text">{{ t.price | currency | slice:0:5 || 25}}</p>
+              </div>
+              <small *ngIf="t.createdAt; else na">Added at {{t.createdAt * 1000 | date:'short'}}</small>
+              <ng-template #na>
+                <small>Added at N/A</small>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="stockOut" *ngIf="products === []">Out of stock, Please try later.</div>
       </div>
     </div>
   </div>
@@ -45,32 +43,24 @@
   <div class="modal-body">
     <form novalidate [formGroup]="pdtForm">
       <div class="form-group">
-        <label for="key">Key</label>
-        <input type="number" class="form-control" id="key" value="" placeholder="key" formControlName="key" required />
-      </div>
-      <div class="form-group">
         <label for="id">ID</label>
-        <input type="number" class="form-control" id="id" value="" placeholder="ID" formControlName="id" required />
+        <input type="number" class="form-control" id="id" value="" minlength="2" maxlength="4" placeholder="Enter ID"
+          formControlName="id" required />
       </div>
       <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" value="" placeholder="title" formControlName="title"
-          required />
+        <input type="text" class="form-control" id="title" value="" placeholder="Enter title name"
+          formControlName="title" required />
       </div>
       <div class="form-group">
         <label for="price">Price</label>
-        <input type="number" class="form-control" id="password" value="" placeholder="0.00" formControlName="price"
-          required />
+        <input type="number" class="form-control" id="password" value="" minlength="2" maxlength="4" placeholder="0.00"
+          formControlName="price" required />
       </div>
       <div class="form-group">
         <label for="category">Category</label>
-        <input type="text" class="form-control" id="category" value="" placeholder="category" formControlName="category"
-          required />
-      </div>
-      <div class="form-group">
-        <label for="url">Image Url</label>
-        <input type="text" class="form-control" id="url" value="" placeholder="Image url" formControlName="imageUrl"
-          required />
+        <input type="text" class="form-control" id="category" value="fruit" placeholder="category"
+          formControlName="category" required />
       </div>
     </form>
   </div>
