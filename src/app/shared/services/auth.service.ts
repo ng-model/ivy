@@ -98,6 +98,10 @@ export class AuthService {
         return this.AuthLogin(new auth.GithubAuthProvider());
     }
 
+    // guestLogin() {
+    //     return this.AuthLogin(new auth.signInAnonymously());
+    // }
+
     // Auth logic to run auth providers
     AuthLogin(provider) {
         return this.afAuth.signInWithPopup(provider)
@@ -140,7 +144,7 @@ export class AuthService {
             });
             setTimeout(() => {
                 window.location.reload();
-            }, 3000);
+            }, 4000);
         })
     }
 
