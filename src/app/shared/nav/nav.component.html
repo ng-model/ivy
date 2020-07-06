@@ -18,8 +18,9 @@
             <span style="font-size: 15px;">
                 {{time}}</span>
         </div>
-        <button class="btn pull-right" (click)="showCart()"><i class="fa fa-cart-arrow-down fa-lg text-white"
-                aria-hidden="true"></i></button>
+        <button class="btn pull-right text-white" (click)="showCart()"><i class="fa fa-cart-arrow-down fa-lg"
+                aria-hidden="true"></i>
+            <span class="badge">{{totalItems}}</span></button>
 
     </mat-toolbar-row>
 </mat-toolbar>

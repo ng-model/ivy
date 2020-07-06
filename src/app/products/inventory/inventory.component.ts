@@ -17,6 +17,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
   product: any;
   totalProducts: number;
   pdtForm = new FormGroup({});
+  selectedItem: { category: any; createdAt: any; id: any; key: any; price: any; title: any; };
+  today: any;
+  itemsInCart: Product[];
+  totalItems: number;
 
   constructor(
     private productService: ProductService,
@@ -24,7 +28,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    this.today = moment().format();
+  }
 
 
   ngOnInit(): void {
@@ -47,8 +53,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             category: e.payload.doc.data()['category'],
             createdAt: e.payload.doc.data()['createdAt']
           } as Product;
-        });
-        this.products.sort((a: any, b: any) => (b - a));
+        }).sort((a: any, b: any) => (b.createdAt - a.createdAt));
         this.totalProducts = this.products.length;
       });
   }
@@ -62,10 +67,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  update(productId, product: Product) {
-    this.productService.update(productId, product);
-  }
-
   delete(id: string) {
     this.productService.delete(id);
   }
@@ -77,7 +78,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       price: new FormControl('', Validators.required),
       category: new FormControl('', Validators.required),
       imageUrl: new FormControl('', Validators.required),
-      createdAt: new Date()
+      createdAt: this.today
     }));
   }
 
@@ -89,6 +90,63 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     });
   }
+
+  edit(item, itemDetail) {
+    this.createForm();
+    this.selectedItem = {
+      category: item.category,
+      createdAt: item.createdAt,
+      id: item.id || 2345,
+      key: item.key,
+      price: item.price,
+      title: item.title
+    }
+    this.pdtForm.patchValue({
+      id: this.selectedItem.id,
+      title: this.selectedItem.title,
+      price: this.selectedItem.price,
+      category: this.selectedItem.category,
+      // imageUrl: this.selectedItem.id,
+      createdAt: moment().format()
+    })
+    this.modal.open(itemDetail, { ariaLabelledBy: 'modal-detail' }).result.then((result) => {
+      this.productService.update(this.selectedItem.key, this.pdtForm.value);
+      console.log(this.pdtForm.value);
+    }, (reason) => {
+
+    });
+  }
+
+  addToCart(item) {
+    this.selectedItem = {
+      category: item.category,
+      createdAt: item.createdAt,
+      id: item.id || 2345,
+      key: item.key,
+      price: item.price,
+      title: item.title
+    }
+    this.productService.addItemToCart(this.selectedItem);
+    this.cartItems();
+  }
+
+  cartItems() {
+    this.productService
+      .getCartItems().subscribe(products => {
+        this.itemsInCart = products.map((e: any) => {
+          return {
+            key: e.payload.doc.id,
+            id: e.payload.doc.data()['key'],
+            title: e.payload.doc.data()['title'],
+            price: e.payload.doc.data()['price'],
+            category: e.payload.doc.data()['category'],
+            createdAt: e.payload.doc.data()['createdAt']
+          } as Product;
+        });
+        this.totalItems = this.itemsInCart.length;
+      });
+  }
+
   ngOnDestroy(): void {
     // this.productService.getAll().unSubscribe();
   }
