@@ -4,6 +4,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -17,10 +18,11 @@ export class NavComponent implements OnInit {
   itemsInCart: any[];
   totalItems: number;
 
-  constructor(public authService: AuthService, private toastr: ToastrService, private cartService: ProductService) {
+  constructor(public authService: AuthService, private toastr: ToastrService, private router: Router, private cartService: ProductService) {
     setInterval(() => {
       this.time = moment().format('LTS');
     }, 1);
+    this.showCart();
   }
 
   ngOnInit(): void {
@@ -29,25 +31,14 @@ export class NavComponent implements OnInit {
     if (this.user) {
       this.myDisplay = this.user.photoURL;
     }
-    this.showCart();
   }
 
   showCart() {
     this.cartService
       .getCartItems().subscribe(products => {
-        this.itemsInCart = products.map((e: any) => {
-          return {
-            key: e.payload.doc.id,
-            id: e.payload.doc.data()['key'],
-            title: e.payload.doc.data()['title'],
-            price: e.payload.doc.data()['price'],
-            category: e.payload.doc.data()['category'],
-            createdAt: e.payload.doc.data()['createdAt']
-          } as Product;
-        });
+        this.itemsInCart = products;
         this.totalItems = this.itemsInCart.length;
       });
-
   }
 
 }

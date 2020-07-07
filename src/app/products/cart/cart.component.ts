@@ -12,6 +12,7 @@ export class CartComponent implements OnInit {
 
   itemsInCart: any[];
   totalItems: number;
+  totalAtCheckout: any;
   constructor(private toastr: ToastrService, private cartService: ProductService) { }
 
   ngOnInit(): void {
@@ -28,7 +29,17 @@ export class CartComponent implements OnInit {
           } as Product;
         });
         this.totalItems = this.itemsInCart.length;
+        const prices = [];
+        this.itemsInCart.forEach(x => {
+          prices.push(x.price);
+        })
+        this.totalAtCheckout = prices.reduce((a, b) => (a + b));
+        console.log(this.totalAtCheckout);
       });
   }
 
+  delete(key) {
+    this.cartService.deleteCartItem(key);
+    this.toastr.success('Item removed from cart.', 'Succcess', { timeOut: 1000 });
+  }
 }

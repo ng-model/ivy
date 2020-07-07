@@ -106,7 +106,9 @@
       </div>
     </form>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer justify-content-between">
+    <button type="button" class="btn btn-danger rounded-circle"
+      (click)="delete(this.selectedItem.key);update.dismiss()"><i class="fa fa-trash-o"></i></button>
     <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="update.close()">Update</button>
   </div>
 </ng-template>

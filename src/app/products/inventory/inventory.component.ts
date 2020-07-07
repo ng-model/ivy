@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { Product } from '../../shared/models/product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import * as moment from 'moment';
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss']
 })
-export class InventoryComponent implements OnInit, OnDestroy {
+export class InventoryComponent implements OnInit {
   products: Product[] = [];
   product: any;
   totalProducts: number;
@@ -67,7 +67,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  delete(id: string) {
+  delete(id) {
     this.productService.delete(id);
   }
 
@@ -127,27 +127,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       title: item.title
     }
     this.productService.addItemToCart(this.selectedItem);
-    this.cartItems();
+    this.productService.getCartItems().subscribe();
   }
 
-  cartItems() {
-    this.productService
-      .getCartItems().subscribe(products => {
-        this.itemsInCart = products.map((e: any) => {
-          return {
-            key: e.payload.doc.id,
-            id: e.payload.doc.data()['key'],
-            title: e.payload.doc.data()['title'],
-            price: e.payload.doc.data()['price'],
-            category: e.payload.doc.data()['category'],
-            createdAt: e.payload.doc.data()['createdAt']
-          } as Product;
-        });
-        this.totalItems = this.itemsInCart.length;
-      });
-  }
-
-  ngOnDestroy(): void {
-    // this.productService.getAll().unSubscribe();
-  }
 }

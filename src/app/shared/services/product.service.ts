@@ -34,4 +34,8 @@ export class ProductService {
     getCartItems() {
         return this.db.collection('cart').snapshotChanges();
     }
+
+    deleteCartItem(key) {
+        return this.db.doc('cart/' + key).delete();
+    }
 }

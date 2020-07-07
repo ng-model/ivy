@@ -144,7 +144,7 @@ export class AuthService {
             });
             setTimeout(() => {
                 window.location.reload();
-            }, 4000);
+            }, 3000);
         })
     }
 
