@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "MAIzaSyDq3GrnNk1j__0QYhJBY1lFPAnanNAA3_Q",
+    apiKey: "AIzaSyDq3GrnNk1j__0QYhJBY1lFPAnanNAA3_Q",
     authDomain: "ng-modell.firebaseapp.com",
     databaseURL: "https://ng-modell.firebaseio.com",
     projectId: "ng-modell",
@@ -13,7 +13,8 @@ export const environment = {
     messagingSenderId: "866444622635",
     appId: "1:866444622635:web:26eebb3ab1778d2c89236e",
     measurementId: "G-0X4DFLVTZX"
-  }
+  },
+  apiKey: "8cde955cc1d449f2864ba717eae1e219"
 };
 
 /*
