@@ -2,8 +2,8 @@
   <div class="container-fluid">
     <div class="card-body">
       <div class="d-flex justify-content-between">
-        <h3>Available Products </h3><button class="btn btn-outline-primary rounded-circle" (click)="open(addItem)"><i
-            class="fa fa-plus"></i></button>
+        <h3>Available Products {{totalProducts}} </h3><button class="btn btn-outline-primary rounded-circle"
+          (click)="open(addItem)"><i class="fa fa-plus"></i></button>
       </div><br>
       <div class="row">
         <div class="col-sm-3" *ngFor="let t of products">
@@ -20,10 +20,16 @@
                 </ng-template>
                 <p *ngIf="t.price; else Other" class="card-text">{{ t.price | currency | slice:0:5 || 25}}</p>
               </div>
-              <small *ngIf="t.createdAt; else na">Added at {{t.createdAt * 1000 | date:'short'}}</small>
+              <small *ngIf="t.createdAt; else na">Added at {{t.createdAt | date:'short'}}</small>
               <ng-template #na>
                 <small>Added at N/A</small>
-              </ng-template>
+              </ng-template> <br>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-sm btn-primary rounded-circle" (click)="edit(t, itemDetail)"><i
+                    class="fa fa-pencil"></i></button>
+                <button class="btn btn-sm btn-primary rounded-circle" (click)="addToCart(t)"><i
+                    class="fa fa-cart-plus"></i></button>
+              </div>
             </div>
           </div>
         </div>
@@ -66,5 +72,43 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="modal.close()">Save</button>
+  </div>
+</ng-template>
+
+<ng-template #itemDetail let-update>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-additem">Update Item</h4>
+    <button type="button" class="close" aria-label="Close" (click)="update.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form novalidate [formGroup]="pdtForm">
+      <div class="form-group">
+        <label for="id">ID</label>
+        <input type="number" class="form-control" id="id" value="" minlength="2" maxlength="4" placeholder="Enter ID"
+          formControlName="id" required />
+      </div>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" value="" placeholder="Enter title name"
+          formControlName="title" required />
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" class="form-control" id="password" value="" minlength="2" maxlength="4" placeholder="0.00"
+          formControlName="price" required />
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <input type="text" class="form-control" id="category" value="fruit" placeholder="category"
+          formControlName="category" required />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer justify-content-between">
+    <button type="button" class="btn btn-danger rounded-circle"
+      (click)="delete(this.selectedItem.key);update.dismiss()"><i class="fa fa-trash-o"></i></button>
+    <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="update.close()">Update</button>
   </div>
 </ng-template>

@@ -1,0 +1,32 @@
+<div class="content" role="main">
+    <div class="container">
+        <div class="d-flex justify-content-between mt-3">
+            <h3 class="">Top Headlines </h3>
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{select}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="changeNews('au')">Australia</a>
+                    <a class="dropdown-item" (click)="changeNews('br')">Brazil</a>
+                    <a class="dropdown-item" (click)="changeNews('in')">India</a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="card-columns">
+            <div class="col mb-4">
+                <div class="card news" *ngFor="let article of newsThread">
+                    <img [src]="article.urlToImage" class="card-img-top" alt="" srcset="">
+                    <div class="card-body">
+                        <h5 class="card-title">{{article.title}}</h5>
+                        <p class="card-text text-justify">{{article.description}}</p>
+                        <a href="{{article.url}}">See article</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

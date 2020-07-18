@@ -26,4 +26,16 @@ export class ProductService {
     delete(productId: any) {
         return this.db.doc('products/' + productId).delete();
     }
+
+    addItemToCart(product: Product) {
+        return this.db.collection('cart').add(product);
+    }
+
+    getCartItems() {
+        return this.db.collection('cart').snapshotChanges();
+    }
+
+    deleteCartItem(key) {
+        return this.db.doc('cart/' + key).delete();
+    }
 }

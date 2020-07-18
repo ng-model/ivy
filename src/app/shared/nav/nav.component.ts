@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { ProductService } from '../services/product.service';
+import { Product } from '../models/product';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -12,11 +15,14 @@ export class NavComponent implements OnInit {
   date; time;
   user: any;
   myDisplay: any;
+  itemsInCart: any[];
+  totalItems: number;
 
-  constructor(public authService: AuthService, private toastr: ToastrService) {
+  constructor(public authService: AuthService, private toastr: ToastrService, private router: Router, private cartService: ProductService) {
     setInterval(() => {
       this.time = moment().format('LTS');
     }, 1);
+    this.showCart();
   }
 
   ngOnInit(): void {
@@ -28,9 +34,11 @@ export class NavComponent implements OnInit {
   }
 
   showCart() {
-    return this.toastr.success('Cart service is work in progress', '', {
-      timeOut: 3000
-    });
+    this.cartService
+      .getCartItems().subscribe(products => {
+        this.itemsInCart = products;
+        this.totalItems = this.itemsInCart.length;
+      });
   }
 
 }

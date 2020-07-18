@@ -18,8 +18,9 @@
             <span style="font-size: 15px;">
                 {{time}}</span>
         </div>
-        <button class="btn pull-right" (click)="showCart()"><i class="fa fa-cart-arrow-down fa-lg text-white"
-                aria-hidden="true"></i></button>
+        <a class="btn pull-right text-white" routerLink="/products/itemsInCart" (click)="showCart()"><i
+                class="fa fa-cart-arrow-down fa-lg" aria-hidden="true"></i>
+            <span *ngIf="totalItems" class="badge badge-light rounded-circle">{{totalItems}}</span></a>
 
     </mat-toolbar-row>
 </mat-toolbar>
@@ -27,6 +28,7 @@
     <mat-sidenav #sidenav style="width: 250px;">
         <mat-nav-list (click)="sidenav.toggle()">
             <a mat-list-item routerLinkActive routerLink="/products/home"> Home </a>
+            <a mat-list-item routerLinkActive routerLink="/news/headlines"> Headlines </a>
             <a mat-list-item routerLinkActive routerLink="/products/inventory"> Inventory </a>
             <a mat-list-item routerLinkActive routerLink="/products/gh-pages-deploy"> Deploy </a>
             <a mat-list-item mat-list-item>Close</a>
