@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { Product } from '../../shared/models/product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import * as moment from 'moment';
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss']
 })
-export class InventoryComponent implements OnInit {
+export class InventoryComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   product: any;
   totalProducts: number;
@@ -21,6 +21,7 @@ export class InventoryComponent implements OnInit {
   today: any;
   itemsInCart: Product[];
   totalItems: number;
+  dummy: any;
 
   constructor(
     private productService: ProductService,
@@ -37,12 +38,12 @@ export class InventoryComponent implements OnInit {
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
-    }, 2000);
+    }, 1000);
     this.getAllProducts();
   }
 
   getAllProducts() {
-    this.productService
+    this.dummy = this.productService
       .getAll().subscribe(products => {
         this.products = products.map((e: any) => {
           return {
@@ -128,6 +129,12 @@ export class InventoryComponent implements OnInit {
     }
     this.productService.addItemToCart(this.selectedItem);
     this.productService.getCartItems().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.dummy.unsubscribe();
   }
 
 }
