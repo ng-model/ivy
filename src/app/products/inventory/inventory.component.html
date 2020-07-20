@@ -6,15 +6,15 @@
           (click)="open(addItem)"><i class="fa fa-plus"></i></button>
       </div><br>
       <div class="row">
-        <div class="col-sm-3" *ngFor="let t of products">
+        <div class="col-sm-3" *ngFor="let t of products | async">
           <div class="card mb-4">
             <ngx-spinner bdColor="rgba(255,254,254,0.67)" size="default" color="#1a2271" type="ball-clip-rotate"
               [fullScreen]="false">
             </ngx-spinner>
-            <img class="card-img-top" src="https://source.unsplash.com/300x300/?fruit" alt="{{ t.title }}">
+            <img class="card-img-top" [src]="t.imageUrl" alt="{{ t.title }}">
             <div class="card-body">
               <div class="d-flex justify-content-between">
-                <p *ngIf="t.title; else Other" class="card-title">{{ t.title | slice:0:6 || 124 }}</p>
+                <p *ngIf="t.title; else Other" class="card-title">{{ t.title || 124 }}</p>
                 <ng-template #Other>
                   <p>N/A</p>
                 </ng-template>
@@ -33,7 +33,6 @@
             </div>
           </div>
         </div>
-        <div class="stockOut" *ngIf="products === []">Out of stock, Please try later.</div>
       </div>
     </div>
   </div>
@@ -55,12 +54,17 @@
       </div>
       <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" value="" placeholder="Enter title name"
-          formControlName="title" required />
+        <!-- <input type="text" class="form-control" id="title" value="" placeholder="Enter title name"
+          formControlName="title" required /> -->
+        <div class="form-field">
+          <select class="custom-select" (click)="productSelected($event.target.value)">
+            <option [ngValue]='product' *ngFor="let product of productTitle">{{product.name}}</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
         <label for="price">Price</label>
-        <input type="number" class="form-control" id="password" value="" minlength="2" maxlength="4" placeholder="0.00"
+        <input type="number" class="form-control" id="password" value="" minlength=2 maxlength=4 placeholder="0.00"
           formControlName="price" required />
       </div>
       <div class="form-group">
@@ -71,7 +75,8 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="modal.close()">Save</button>
+    <button type="button" class="btn btn-outline-dark" ngbAutofocus [disabled]="pdtForm.invalid"
+      (click)="modal.close()">Save</button>
   </div>
 </ng-template>
 
@@ -96,7 +101,7 @@
       </div>
       <div class="form-group">
         <label for="price">Price</label>
-        <input type="number" class="form-control" id="password" value="" minlength="2" maxlength="4" placeholder="0.00"
+        <input type="number" class="form-control" id="password" value="" minlength=2 maxlength=4 placeholder="0.00"
           formControlName="price" required />
       </div>
       <div class="form-group">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../../shared/services/news.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-news',
@@ -10,7 +11,9 @@ export class NewsComponent implements OnInit {
   newsThread: any;
   rawData: any;
   select = 'Select';
-  constructor(private news: NewsService) { }
+  newsThread1: any;
+  constructor(private news: NewsService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const country = 'us';
@@ -22,8 +25,12 @@ export class NewsComponent implements OnInit {
       this.rawData = data;
       this.newsThread = this.rawData.articles;
       this.newsThread.sort((a: any, b: any) => (b.publishedAt - a.publishedAt));
-      // this.news.offlineNews(this.rawData);
-    });
+      this.news.offlineNews(this.rawData);
+    },
+      (err: any) => {
+        console.log(err);
+        this.toastr.success(err, 'Warning');
+      });
   }
 
   changeNews(country) {
