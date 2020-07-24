@@ -7,27 +7,27 @@ export class ProductService {
 
     constructor(private db: AngularFirestore) { }
 
-    create(product: Product) {
-        return this.db.collection('products').add(product);
-    }
+    // create(product: Product) {
+    //     return this.db.collection('products').add(product);
+    // }
 
     getAll() {
-        return this.db.collection('products').snapshotChanges();
+        return this.db.collection('products', ref => ref.orderBy("createdAt", "desc")).snapshotChanges();
     }
 
     get(productId: any) {
         return this.db.collection('products').doc(productId);
     }
 
-    update(productId: any, product: Product) {
-        return this.db.doc('products/' + productId).update(product);
-    }
+    // update(productId: any, product: Product) {
+    //     return this.db.doc('products/' + productId).update(product);
+    // }
 
     delete(productId: any) {
         return this.db.doc('products/' + productId).delete();
     }
 
-    addItemToCart(product: Product) {
+    addItemToCart(product) {
         return this.db.collection('cart').add(product);
     }
 

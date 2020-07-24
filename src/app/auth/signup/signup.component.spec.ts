@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignupComponent } from './signup.component';
+import { AuthService } from '../../shared/services/auth.service';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { RouterModule } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../../../environments/environment';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -8,9 +14,15 @@ describe('SignupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SignupComponent ]
+      declarations: [SignupComponent],
+      imports: [
+        RouterModule.forRoot([]),
+        ToastrModule.forRoot({}),
+        AngularFirestoreModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig)],
+      providers: [AuthService],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

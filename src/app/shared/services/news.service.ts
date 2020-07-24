@@ -19,7 +19,11 @@ export class NewsService {
     }
 
     offlineNews(news) {
-        this.afs.collection('news').add(news);;
+        return this.afs.collection('news').add(news);
+    }
+
+    getNews1() {
+        return this.afs.collection('news').snapshotChanges();
     }
 
 }

@@ -24,6 +24,7 @@ export class CartComponent implements OnInit {
             id: e.payload.doc.data()['key'],
             title: e.payload.doc.data()['title'],
             price: e.payload.doc.data()['price'],
+            imageUrl: e.payload.doc.data()['imageUrl'],
             category: e.payload.doc.data()['category'],
             createdAt: e.payload.doc.data()['createdAt']
           } as Product;
